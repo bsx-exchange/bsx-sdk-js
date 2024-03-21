@@ -1,0 +1,51 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "search.exclude": {
+    "package-lock.json": true,
+    "**/public/static": true,
+    "**/dist": true
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": ["source.addMissingImports", "source.fixAll.eslint"],
+  "jest.autoRun": {
+    "watch": true, // Start the jest with the watch flag
+    "onStartup": ["all-tests"] // Run all tests upon project launch
+  },
+  "jest.showCoverageOnLoad": true, // Show code coverage when the project is launched
+  "jest.showTerminalOnLaunch": false, // Don't automatically open test explorer terminal on launch
+  // Multiple language settings for json and jsonc files
+  "[json][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[postcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "exchange-instance-1.ckecpjqdgid1.ap-northeast-1.rds.amazonaws.com",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Bsx Test DB",
+      "database": "exchange",
+      "username": "postgres",
+      "password": "XAT0wkz2bpy-zdg-npm"
+    },
+    {
+      "previewLimit": 50,
+      "server": "rds.dev.bsx.exchange",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Bsx Dev",
+      "database": "exchange",
+      "username": "bsx",
+      "password": "jwOZeYcJlp8oAvd1"
+    }
+  ],
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  }
+}

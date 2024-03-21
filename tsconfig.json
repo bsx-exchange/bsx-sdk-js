@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "allowSyntheticDefaultImports": true,
+
+    "isolatedModules": true,
+
+    "target": "ESNext",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+
+    "noEmit": false,
+    "incremental": false,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist"
+  },
+  "include": ["./src/**/*.ts", "tsup.config.ts", "./example/**/*.ts"],
+  "exclude": ["dist", "build", "node_modules"]
+}
