@@ -34,5 +34,7 @@
     "prettier": "^3.2.5",
     "tsup": "^6.5.0",
     "typescript": "^5.1.6"
+  },"publishConfig": {
+    "@bsx-engineering:registry": "https://npm.pkg.github.com"
   }
 }
