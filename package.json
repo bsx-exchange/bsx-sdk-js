@@ -1,5 +1,5 @@
 {
-  "name": "blockchain-core",
+  "name": "@bsx-exchange/bsx-sdk-js",
   "version": "0.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,7 +34,9 @@
     "prettier": "^3.2.5",
     "tsup": "^6.5.0",
     "typescript": "^5.1.6"
-  },"publishConfig": {
-    "@bsx-engineering:registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/bsx-exchange/bsx-sdk-js.git",
+  "publishConfig": {
+    "@bsx-exchange:registry": "https://npm.pkg.github.com"
   }
 }
