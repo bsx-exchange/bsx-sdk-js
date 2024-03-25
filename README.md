@@ -27,7 +27,7 @@ Input private key of your wallet and signer to create SDK Instance for later use
 import { BsxInstance } from '@bsx-exchange/client';
 
 // Initializing a client to return content in the store's primary language
-const bsxInstance = new BsxInstance('0xde...', '0xde...', 'dev');
+const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
 ```
 
 ### Register account
