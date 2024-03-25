@@ -11,11 +11,11 @@ The JS Buy SDK is a lightweight library that allows you to interact with BSX Api
 ## Installation
 **With Yarn:**
 ```bash
-$ yarn add bsx-js-sdk
+$ yarn add @bsx-exchange/client
 ```
 **With NPM:**
 ```bash
-$ npm install bsx-js-sdk
+$ npm install @bsx-exchange/client
 ```
 
 ## Examples
@@ -24,7 +24,7 @@ $ npm install bsx-js-sdk
 Input private key of your wallet and signer to create SDK Instance for later use.
 
 ```javascript
-import { BsxInstance } from 'bsx-js-sdk';
+import { BsxInstance } from '@bsx-exchange/client';
 
 // Initializing a client to return content in the store's primary language
 const bsxInstance = new BsxInstance('0xde...', '0xde...', 'dev');
@@ -34,7 +34,7 @@ const bsxInstance = new BsxInstance('0xde...', '0xde...', 'dev');
 Create order with signature create from signer and user wallet
 
 ```javascript
-import { BsxInstance, ENV_NAME } from 'bsx-js-sdk';
+import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
 
 const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
 bsxInstance
@@ -51,9 +51,9 @@ bsxInstance
 Create order with signature create from signer and user wallet
 
 ```javascript
-import { BsxInstance } from 'bsx-js-sdk';
+import { BsxInstance } from '@bsx-exchange/client';
 
-const bsxInstance = new BsxInstance('0xde...', '0xde...', 'dev');
+const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
 const { error: registerError } = await bsxInstance.register();
 if (!registerError) {
   bsxInstance
