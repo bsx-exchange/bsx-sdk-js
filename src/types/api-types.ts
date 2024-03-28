@@ -1,8 +1,8 @@
 // ORDER
 export interface CreateOrderBody {
   side: 'BUY' | 'SELL';
-  type: 'MARKET' | 'LIMIT';
-  time_in_force: 'FOK' | 'GTC';
+  type: 'MARKET' | 'LIMIT' | 'STOP';
+  time_in_force: 'FOK' | 'GTC' | 'IOC';
   product_index: number;
   price: string;
   size: string;
@@ -58,7 +58,7 @@ export interface CreateOrderResult {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: string;
+  status: 'PENDING' | 'OPEN' | 'DONE';
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
@@ -94,7 +94,7 @@ interface UserOrder {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: string;
+  status: 'PENDING' | 'OPEN' | 'DONE';
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
