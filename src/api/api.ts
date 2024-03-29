@@ -12,6 +12,7 @@ import type {
   EnvName,
   GetTransferHistoryBody,
   OpenOrderResult,
+  PortfolioDetail,
   RegisterBody,
   RegisterResult,
   SubmitWithdrawalRequestBody,
@@ -32,7 +33,7 @@ export class ApiInstance {
   });
 
   // SET AUTH TOKEN
-  setAuthToken = (authInfo?: any) => {
+  setAuthToken = (authInfo?: { api_key: string; api_secret: string }) => {
     if (authInfo) {
       this.api.setHeaders({
         'bsx-key': authInfo.api_key,
@@ -85,7 +86,7 @@ export class ApiInstance {
   // TRADING
   getProducts = () => this.api.get('/products');
 
-  getPortfolioDetail = () => this.api.get('/portfolio/detail');
+  getPortfolioDetail = () => this.api.get<PortfolioDetail>('/portfolio/detail');
 
   getFundingHistory = (productId: string) =>
     this.api.get(`/products/${productId}/funding-rate`);

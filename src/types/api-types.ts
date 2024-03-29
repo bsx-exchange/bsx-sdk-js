@@ -123,3 +123,62 @@ export interface SubmitWithdrawalRequestBody {
   nonce: string;
   signature: string;
 }
+
+export interface PortfolioDetail {
+  account: string;
+  summary: PortfolioDetailSummary;
+  positions: PositionData[];
+  stats: PortfolioStats;
+}
+
+export interface PortfolioStats {
+  order_stats: Orderstats;
+  products: ProductStat[];
+  trading_stats: TradingStats;
+}
+
+interface TradingStats {
+  total_trading_volume: string;
+}
+
+export interface ProductStat {
+  product_id: string;
+  stat: Orderstats;
+}
+
+export interface Orderstats {
+  total_orders: string;
+  total_done_orders: string;
+  total_open_orders: string;
+  total_pending_orders: string;
+}
+export interface PortfolioDetailSummary {
+  margin_usage: string;
+  account_leverage: string;
+  has_pending_withdrawal: boolean;
+  in_liquidation: boolean;
+  free_collateral: string;
+  total_account_value: string;
+  total_notional: string;
+  usdc_balance: string;
+  unsettled_usdc: string;
+  realized_pnl: string;
+  total_intial_margin: string;
+  total_maintenance_margin: string;
+}
+
+export interface PositionData extends ProductInfo {
+  product_index: number;
+  product_id: string;
+  net_size: string;
+  avg_entry_price: string;
+  initial_margin_requirement: string;
+  maintenance_margin_requirement: string;
+  liquidation_price: string;
+  unrealized_pnl: string;
+  mark_price: string;
+  leverage: string;
+  unsettled_funding: string;
+  funding_index: string;
+  quote_balance: string;
+}

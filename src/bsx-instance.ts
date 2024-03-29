@@ -27,28 +27,65 @@ dayjs.extend(utc);
 
 export class BsxInstance {
   constructor(
-    userPrivateKey: string,
+    userPrivateKey: string | null,
     signerPrivateKey?: string,
     env?: EnvName,
   ) {
-    this.userWallet = new Wallet(userPrivateKey);
-    this.signerWallet = signerPrivateKey
-      ? new Wallet(signerPrivateKey)
-      : this.userWallet;
+    if (userPrivateKey) {
+      this.userWallet = new Wallet(userPrivateKey);
+      this.userAddress = this.userWallet.address;
+      this.signerWallet = signerPrivateKey
+        ? new Wallet(signerPrivateKey)
+        : this.userWallet;
+    } else if (signerPrivateKey)
+      this.signerWallet = new Wallet(signerPrivateKey);
     this.apiInstance.setBaseUrlByEnv(env);
   }
 
-  userWallet: Wallet;
+  userWallet: Wallet | undefined;
 
-  signerWallet: Wallet;
+  userAddress: string | undefined;
+
+  signerWallet: Wallet | undefined;
 
   private apiInstance = createBsxApi();
 
   private appConfig = new AppConfig(this.apiInstance);
 
+  static createWithApiKey = async (
+    apiKey: string,
+    apiSecret: string,
+    signerPrivateKey: string,
+    env?: EnvName,
+  ) => {
+    const instance = new BsxInstance(null, signerPrivateKey, env);
+    await instance.setUpApiKey(apiKey, apiSecret);
+    return instance;
+  };
+
+  setUpApiKey = async (apiKey: string, apiSecret: string) => {
+    this.apiInstance.setAuthToken({ api_key: apiKey, api_secret: apiSecret });
+    await this.getUserAddressByPortfolioDetail();
+  };
+
+  getUserAddressByPortfolioDetail = async () => {
+    const res = await this.apiInstance.getPortfolioDetail();
+    const { result, error } = handleError(res);
+    if (error)
+      throw new Error(
+        error?.message || 'Cannot get user address by portfolio detail',
+      );
+
+    this.userAddress = result?.account;
+  };
+
   register = async () => {
+    if (!this.userWallet) throw new Error('User wallet is not defined');
+    if (!this.signerWallet) throw new Error('Signer wallet is not defined');
+    if (!this.userAddress) throw new Error('User address is not defined');
+
     const signingKeyMessage: SigningKeyMessage = {
-      account: this.userWallet.address,
+      account: this.userAddress,
     };
 
     const domainData = await this.appConfig.getDomainData();
@@ -62,7 +99,7 @@ export class BsxInstance {
 
     const nonce = toServerTime(dayjs());
     const registerMessage: RegisterMessage = {
-      key: this.userWallet.address,
+      key: this.userAddress,
       nonce,
       message: `Please sign in with your wallet to access bsx.exchange. You are signing in on ${dayjs()
         .utc()
@@ -80,7 +117,7 @@ export class BsxInstance {
     );
 
     const body = {
-      user_wallet: this.userWallet.address,
+      user_wallet: this.userAddress,
       signer: this.signerWallet.address,
       nonce: registerMessage.nonce,
       wallet_signature: accountSignature,
@@ -102,6 +139,9 @@ export class BsxInstance {
   };
 
   createOrder = async (orderInput: OrderInput) => {
+    if (!this.signerWallet) throw new Error('Signer wallet is not defined');
+    if (!this.userAddress) throw new Error('User address is not defined');
+
     const { body, orderMessage } = createOrderBodyAndMessage(
       {
         side: orderInput.side,
@@ -113,7 +153,7 @@ export class BsxInstance {
         reduce_only: orderInput.reduce_only,
         nonce: nowInNano(),
       },
-      this.userWallet.address,
+      this.userAddress,
     );
 
     const domainData = await this.appConfig.getDomainData();
@@ -131,10 +171,13 @@ export class BsxInstance {
   };
 
   submitWithdrawalRequest = async (amount: string) => {
+    if (!this.userWallet) throw new Error('User wallet is not defined');
+    if (!this.userAddress) throw new Error('User address is not defined');
+
     const domainData = await this.appConfig.getDomainData();
     const usdcAddress = await this.appConfig.getUsdcAddress();
     const body = {
-      sender: this.userWallet?.address,
+      sender: this.userAddress,
       amount: anyToFloatWithIncrement(amount, 2),
       token: usdcAddress,
       nonce: nowInNano(),
@@ -147,13 +190,15 @@ export class BsxInstance {
       nonce: body.nonce,
     };
 
-    const signature = await this.userWallet?.signTypedData(
+    const signature = await this.userWallet.signTypedData(
       domainData,
       {
         Withdraw: SIGN_DATA_TYPE.WITHDRAW_TYPE,
       },
       message,
     );
+
+    if (!signature) throw new Error('Cannot create signature');
 
     return apiCallWithBody(this.apiInstance.requestWithdraw, {
       ...body,
