@@ -182,3 +182,35 @@ export interface PositionData extends ProductInfo {
   funding_index: string;
   quote_balance: string;
 }
+
+export interface ProductInfo {
+  product_id: string;
+  index: number;
+  base_asset_symbol: string;
+  quote_asset_symbol: string;
+  underlying: string;
+  base_increment: string;
+  quote_increment: string;
+  min_order_size: string;
+  is_active: boolean;
+  perpetual_product_config: Perpetualproductconfig;
+  last_cumulative_funding: string;
+  quote_volume_24h: string;
+  change_24h: string;
+  high_24h: string;
+  low_24h: string;
+  last_price: string;
+  mark_price: string;
+  index_price: string;
+  max_position_size: string;
+  open_interest: string;
+  funding_interval: string;
+  next_funding_rate: string;
+  post_only: boolean;
+}
+
+interface Perpetualproductconfig {
+  initial_margin: string;
+  maintenance_margin: string;
+  max_leverage: string;
+}
