@@ -20,8 +20,72 @@ $ npm install @bsx-exchange/client
 
 ## Examples
 
-### Initializing the Instance
-Input private key of your wallet and signer to create SDK Instance for later use.
+```javascript
+import { BsxInstance } from '@bsx-exchange/client';
+
+const main = async () => {
+  const bsxInstance = await BsxInstance.createWithApiKey(
+    '9c77801a61fe23cebc574524b2b875e7',
+    'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
+    '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
+    ENV_NAME.TESTNET,
+  );
+
+  // More action
+}
+```
+
+## Usage
+
+#### Create instance with API key - Primary method
+Please notice that with this method, you cannot perform request withdraw action.
+
+```javascript
+import { BsxInstance } from '@bsx-exchange/client';
+
+const main = async () => {
+  try {
+    const bsxInstance = await BsxInstance.createWithApiKey(
+      '9c77801a61fe23cebc574524b2b875e7',
+      'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
+      '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
+      ENV_NAME.TESTNET,
+    );
+
+    // Create order
+    const resCreateOrder = await bsxInstance.createOrder({
+      side: 'BUY',
+      type: 'LIMIT',
+      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP and 3 for SOL_PERP
+      price: '1000',
+      size: '0.01',
+      post_only: false,
+      reduce_only: false,
+    });
+    console.log('createOrder', resCreateOrder.result, resCreateOrder.error);
+
+    // Get all open orders
+    const resOpenOrder = await bsxInstance.getAllOpenOrders();
+    console.log('getAllOpenOrders', resOpenOrder.result, resOpenOrder.error);
+
+    // Get order history
+    const resOrderHistory = await bsxInstance.getOrderHistory('BTC_PERP');
+    console.log('getOrderHistory', resOrderHistory.result, resOrderHistory.error);
+
+    // Cancel order
+    const resCancelOrder = await bsxInstance.cancelOrder(resCreateOrder.result.id);
+    console.log('cancelOrder', resCancelOrder.result, resCancelOrder.error);
+
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+main();
+```
+
+### Initializing the Instance with user wallet and signer (not recommended)
+Input private key of your wallet and signer to create SDK Instance for later use. With this method, you can perform request withdraw action. Register action is required before performing any other actions.
 
 ```javascript
 import { BsxInstance } from '@bsx-exchange/client';
@@ -30,21 +94,27 @@ import { BsxInstance } from '@bsx-exchange/client';
 const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
 ```
 
-### Register account
+### Register account (only for initializing with user wallet and signer)
 Create order with signature create from signer and user wallet
 
 ```javascript
 import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
 
-const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
-bsxInstance
-  .register()
-  .then(({ result, error, curl }) => {
-    console.log('register', result, error, curl);
-  })
-  .catch((error) => {
-    console.log('register catch error', error);
-  });
+const main = async () => {
+  try {
+    const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
+    const { result, error: registerError, curl } = await bsxInstance.register();
+    if (!registerError) {
+      console.log('register success', result, curl);
+    } else {
+      console.log('register error', registerError, curl);
+    }
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+main();
 ```
 
 ### Create order
@@ -53,11 +123,15 @@ Create order with signature create from signer and user wallet
 ```javascript
 import { BsxInstance } from '@bsx-exchange/client';
 
-const bsxInstance = new BsxInstance('0xde...', '0xde...', ENV_NAME.TESTNET);
-const { error: registerError } = await bsxInstance.register();
-if (!registerError) {
-  bsxInstance
-    .createOrder({
+const main = async () => {
+  try {
+    const bsxInstance = await BsxInstance.createWithApiKey(
+      '9c77801a61fe23cebc574524b2b875e7',
+      'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
+      '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
+      ENV_NAME.TESTNET,
+    );
+    const resCreateOrder = await bsxInstance.createOrder({
       side: 'BUY',
       type: 'LIMIT',
       product_index: 1,
@@ -66,28 +140,12 @@ if (!registerError) {
       post_only: false,
       reduce_only: false,
     })
-    .then(({ result, error, curl }) => {
-      console.log('createOrder', result, error, curl);
-    })
-    .catch((error) => {
-      console.log('createOrder catch error', error);
-    });
+  } catch (error) {
+    console.log('Error', error);
+  }
 }
-```
-#### OR Create with API key
-Please notice that with this method, you cannot perform request withdraw action.
 
-```javascript
-import { BsxInstance } from '@bsx-exchange/client';
-
-const main = () => {
-  const bsxInstance = await BsxInstance.createWithApiKey(
-    '9c77801a61fe23cebc574524b2b875e7',
-    'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
-    '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
-    ENV_NAME.TESTNET,
-  );
-}
+main();
 ```
 
 ### Submit withdraw request
@@ -109,7 +167,7 @@ Get all current open order of user
 
 ```javascript
 bsxInstance
-  .getAllOpenOrders('100.1')
+  .getAllOpenOrders()
   .then(({ result, error, curl }) => {
     console.log('getAllOpenOrders', result, error, curl);
   })
