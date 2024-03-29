@@ -126,7 +126,7 @@ export class BsxInstance {
     };
     const res = await this.apiInstance.register(body);
 
-    const { result, error } = handleError(res);
+    const { result, error, curl } = handleError(res);
     this.apiInstance.setAuthToken(result);
 
     return {
@@ -135,6 +135,7 @@ export class BsxInstance {
       body,
       userWallet: this.userWallet,
       signerWallet: this.signerWallet,
+      curl,
     };
   };
 
