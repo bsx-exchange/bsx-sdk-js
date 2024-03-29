@@ -7,7 +7,9 @@
     "build": "tsup",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "test": "jest --watch",
-    "sandbox": "ts-node -T example/index.ts"
+    "sandbox": "ts-node -T example/index.ts",
+    "prepack": "yarn build",
+    "release": "release-it"
   },
   "dependencies": {},
   "devDependencies": {
