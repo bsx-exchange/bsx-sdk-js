@@ -74,6 +74,21 @@ if (!registerError) {
     });
 }
 ```
+#### OR Create with API key
+Please notice that with this method, you cannot perform request withdraw action.
+
+```javascript
+import { BsxInstance } from '@bsx-exchange/client';
+
+const main = () => {
+  const bsxInstance = await BsxInstance.createWithApiKey(
+    '9c77801a61fe23cebc574524b2b875e7',
+    'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
+    '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
+    ENV_NAME.TESTNET,
+  );
+}
+```
 
 ### Submit withdraw request
 Submit withdraw request
