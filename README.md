@@ -10,6 +10,7 @@ The JS Buy SDK is a lightweight library that allows you to interact with BSX Api
   + [Create instance with API key - Primary method](#create-instance-with-api-key---primary-method)
   + [Initializing the Instance with user wallet and signer (not recommended)](#initializing-the-instance-with-user-wallet-and-signer-not-recommended)
   + [Register account (only for initializing with user wallet and signer)](#register-account-only-for-initializing-with-user-wallet-and-signer)
+  + [Using other api base url](#using-other-api-base-url)
   + [Create order](#create-order)
   + [Submit withdraw request](#submit-withdraw-request)
   + [Get all open orders](#get-all-open-orders)
@@ -155,6 +156,65 @@ const main = async () => {
     // Cancel order
     const resCancelOrder = await bsxInstance.cancelOrder(resCreateOrder.result.id);
     console.log('cancelOrder', resCancelOrder.result, resCancelOrder.error);
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+main();
+```
+
+### Using other api base url
+You can use other api base url by passing the url to the BsxInstance.createWithApiKey method
+
+```javascript
+import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
+
+const main = async () => {
+  try {
+    const bsxInstance = await BsxInstance.createWithApiKey(
+      '9c77801a61fe23cebc574524b2b875e7',
+      'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
+      '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
+      ENV_NAME.TESTNET,
+      'https://api.bsx.exchange',
+    );
+
+    // More action
+
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+main();
+```
+
+With user wallet and signer
+
+```javascript
+import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
+
+const main = async () => {
+  try {
+    const bsxInstance = new BsxInstance(
+      '0xde...',
+      '0xde...',
+      ENV_NAME.TESTNET,
+      'https://api.bsx.exchange'
+    );
+
+    // Register account
+    // MUST do if you initialize with user wallet and signer
+    const { result, error: registerError, curl } = await bsxInstance.register();
+    if (!registerError) {
+      console.log('register success', result, curl);
+    } else {
+      console.log('register error', registerError, curl);
+    }
+
+    // More action
+
   } catch (error) {
     console.log('Error', error);
   }

@@ -31,6 +31,7 @@ export class BsxInstance {
     userPrivateKey: string | null,
     signerPrivateKey?: string,
     env?: EnvName,
+    apiBaseUrl?: string,
   ) {
     if (userPrivateKey) {
       this.userWallet = new Wallet(userPrivateKey);
@@ -41,6 +42,7 @@ export class BsxInstance {
     } else if (signerPrivateKey)
       this.signerWallet = new Wallet(signerPrivateKey);
     this.apiInstance.setBaseUrlByEnv(env);
+    if (apiBaseUrl) this.apiInstance.changeBaseUrl(apiBaseUrl);
   }
 
   userWallet: Wallet | undefined;
@@ -58,8 +60,10 @@ export class BsxInstance {
     apiSecret: string,
     signerPrivateKey: string,
     env?: EnvName,
+    apiBaseUrl?: string,
   ) => {
     const instance = new BsxInstance(null, signerPrivateKey, env);
+    if (apiBaseUrl) instance.apiInstance.changeBaseUrl(apiBaseUrl);
     await instance.setUpApiKey(apiKey, apiSecret);
     return instance;
   };
