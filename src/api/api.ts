@@ -8,6 +8,8 @@ import type {
   CreateOrderBody,
   CreateOrderResult,
   CreateUserApiKeyBody,
+  DeleteAllOrdersBody,
+  DeleteAllOrdersResult,
   DeleteOrderResult,
   EnvName,
   GetTransferHistoryBody,
@@ -69,7 +71,8 @@ export class ApiInstance {
   cancelOrder = (order_id: string) =>
     this.api.delete<DeleteOrderResult>('order', { order_id });
 
-  cancelAllOrders = () => this.api.delete('orders/all');
+  cancelAllOrders = (body?: DeleteAllOrdersBody) =>
+    this.api.delete<DeleteAllOrdersResult>('orders/all', body);
 
   cancelBulkOrders = (body: CancelBulkOrdersBody) =>
     this.api.delete(

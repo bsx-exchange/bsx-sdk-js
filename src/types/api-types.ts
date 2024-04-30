@@ -214,3 +214,15 @@ interface Perpetualproductconfig {
   maintenance_margin: string;
   max_leverage: string;
 }
+
+export type ProductId = 'BTC-PERP' | 'ETH-PERP' | 'SOL-PERP';
+export interface DeleteAllOrdersBody {
+  product_id?: ProductId;
+}
+
+export interface DeleteAllOrdersResult {
+  cancel_requested_orders: {
+    order_id: string;
+    nonce: string;
+  }[];
+}

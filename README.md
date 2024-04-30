@@ -299,6 +299,19 @@ bsxInstance
   });
 ```
 
+Cancel all open orders of a product
+
+```javascript
+bsxInstance
+  .cancelAllOrders('BTC_PERP')
+  .then(({ result, error, curl }) => {
+    console.log('cancelAllOrders', result, error, curl);
+  })
+  .catch((error) => {
+    console.log('cancelAllOrders catch error', error);
+  });
+```
+
 ### Cancel bulk orders
 Cancel bulk orders by order ids
 

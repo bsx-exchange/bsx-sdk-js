@@ -15,6 +15,8 @@ import type {
   CreateOrderBody,
   GetTransferHistoryBody,
   GetUserTradeHistoryBody,
+  ProductId,
+  ProductId,
 } from './types/api-types';
 import type { EnvName, OrderInput } from './types/general';
 import type {
@@ -218,7 +220,11 @@ export class BsxInstance {
   cancelOrder = async (order_id: string) =>
     apiCallWithBody(this.apiInstance.cancelOrder, order_id);
 
-  cancelAllOrders = async () => apiCall(this.apiInstance.cancelAllOrders);
+  cancelAllOrders = async (productId?: ProductId) =>
+    apiCallWithBody(
+      this.apiInstance.cancelAllOrders,
+      productId ? { product_id: productId } : {},
+    );
 
   cancelBulkOrders = async (orderIds: string[]) =>
     apiCallWithBody(this.apiInstance.cancelBulkOrders, { order_ids: orderIds });
