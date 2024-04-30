@@ -16,7 +16,6 @@ import type {
   GetTransferHistoryBody,
   GetUserTradeHistoryBody,
   ProductId,
-  ProductId,
 } from './types/api-types';
 import type { EnvName, OrderInput } from './types/general';
 import type {
