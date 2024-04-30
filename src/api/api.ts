@@ -11,7 +11,6 @@ import type {
   DeleteAllOrdersBody,
   DeleteAllOrdersResult,
   DeleteOrderResult,
-  EnvName,
   GetTransferHistoryBody,
   OpenOrderResult,
   PortfolioDetail,
@@ -48,12 +47,6 @@ export class ApiInstance {
 
   changeBaseUrl = (url: string) => {
     this.api.setBaseURL(url);
-  };
-
-  setBaseUrlByEnv = (env: EnvName = 'public-testnet') => {
-    if (env === 'mainnet') this.api.setBaseURL('https://api.bsx.exchange/');
-    else if (env === 'public-testnet')
-      this.api.setBaseURL('https://api.testnet.bsx.exchange/');
   };
 
   // USER

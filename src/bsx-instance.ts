@@ -17,7 +17,7 @@ import type {
   GetUserTradeHistoryBody,
   ProductId,
 } from './types/api-types';
-import type { EnvName, OrderInput } from './types/general';
+import { type EnvName, type OrderInput } from './types/general';
 import type {
   RegisterMessage,
   SigningKeyMessage,
@@ -30,8 +30,7 @@ export class BsxInstance {
   constructor(
     userPrivateKey: string | null,
     signerPrivateKey?: string,
-    env?: EnvName,
-    apiBaseUrl?: string,
+    env?: EnvName | string,
   ) {
     if (userPrivateKey) {
       this.userWallet = new Wallet(userPrivateKey);
@@ -41,8 +40,7 @@ export class BsxInstance {
         : this.userWallet;
     } else if (signerPrivateKey)
       this.signerWallet = new Wallet(signerPrivateKey);
-    this.apiInstance.setBaseUrlByEnv(env);
-    if (apiBaseUrl) this.apiInstance.changeBaseUrl(apiBaseUrl);
+    this.setBaseUrlByEnv(env);
   }
 
   userWallet: Wallet | undefined;
@@ -59,13 +57,19 @@ export class BsxInstance {
     apiKey: string,
     apiSecret: string,
     signerPrivateKey: string,
-    env?: EnvName,
-    apiBaseUrl?: string,
+    env?: EnvName | string,
   ) => {
     const instance = new BsxInstance(null, signerPrivateKey, env);
-    if (apiBaseUrl) instance.apiInstance.changeBaseUrl(apiBaseUrl);
     await instance.setUpApiKey(apiKey, apiSecret);
     return instance;
+  };
+
+  private setBaseUrlByEnv = (env: EnvName | string = 'public-testnet') => {
+    if (env === 'mainnet')
+      this.apiInstance.changeBaseUrl('https://api.bsx.exchange/');
+    else if (env === 'public-testnet')
+      this.apiInstance.changeBaseUrl('https://api.testnet.bsx.exchange/');
+    else this.apiInstance.changeBaseUrl(env);
   };
 
   setUpApiKey = async (apiKey: string, apiSecret: string) => {

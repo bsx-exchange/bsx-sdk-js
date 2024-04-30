@@ -168,7 +168,7 @@ main();
 You can use other api base url by passing the url to the BsxInstance.createWithApiKey method
 
 ```javascript
-import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
+import { BsxInstance } from '@bsx-exchange/client';
 
 const main = async () => {
   try {
@@ -176,7 +176,6 @@ const main = async () => {
       '9c77801a61fe23cebc574524b2b875e7',
       'd6217f927d24a9f40b668f94f153b97254ab230df92770f3e2367855fffd0b9f',
       '0x5ef68ecef054da6b13cdf79f2f78ca362ebffa68b19e4b5b1a3bd78df53e585c',
-      ENV_NAME.TESTNET,
       'https://api.bsx.exchange',
     );
 
@@ -193,14 +192,13 @@ main();
 With user wallet and signer
 
 ```javascript
-import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
+import { BsxInstance } from '@bsx-exchange/client';
 
 const main = async () => {
   try {
     const bsxInstance = new BsxInstance(
       '0xde...',
       '0xde...',
-      ENV_NAME.TESTNET,
       'https://api.bsx.exchange'
     );
 
