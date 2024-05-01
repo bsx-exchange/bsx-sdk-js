@@ -154,13 +154,7 @@ export class BsxInstance {
 
     const { body, orderMessage } = createOrderBodyAndMessage(
       {
-        side: orderInput.side,
-        type: orderInput.type,
-        product_index: orderInput.product_index,
-        price: orderInput.price,
-        size: orderInput.size,
-        post_only: orderInput.post_only,
-        reduce_only: orderInput.reduce_only,
+        ...orderInput,
         nonce: nowInNano(),
       },
       this.userAddress,
