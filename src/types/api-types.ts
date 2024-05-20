@@ -215,7 +215,7 @@ interface Perpetualproductconfig {
   max_leverage: string;
 }
 
-export type ProductId = 'BTC-PERP' | 'ETH-PERP' | 'SOL-PERP';
+export type ProductId = 'BTC-PERP' | 'ETH-PERP' | 'SOL-PERP' | 'WIF-PERP';
 export interface DeleteAllOrdersBody {
   product_id?: ProductId;
 }

@@ -1,6 +1,6 @@
 # BSX JavaScript SDK
 
-The JS Buy SDK is a lightweight library that allows you to interact with BSX Api.
+The JS Buy SDK is a lightweight library that allows you to interact with BSX API.
 
 ## Table Of Contents
 
@@ -76,7 +76,7 @@ const main = async () => {
     const resCreateOrder = await bsxInstance.createOrder({
       side: 'BUY',
       type: 'LIMIT',
-      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP and 3 for SOL_PERP
+      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP ... (check Product Index section)
       price: '1000',
       size: '0.01',
       post_only: false,
@@ -137,7 +137,7 @@ const main = async () => {
     const resCreateOrder = await bsxInstance.createOrder({
       side: 'BUY',
       type: 'LIMIT',
-      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP and 3 for SOL_PERP
+      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP ... (check Product Index section)
       price: '1000',
       size: '0.01',
       post_only: false,
@@ -505,8 +505,13 @@ bsxInstance
   });
 ```
 
+## Product Index
+Product index is used to identify the product when creating order. The index is as follows:
 
-
+- 1: BTC_PERP
+- 2: ETH_PERP
+- 3: SOL_PERP
+- 4: WIF_PERP
 
 
 ## License
