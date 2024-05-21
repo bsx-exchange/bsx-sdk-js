@@ -1,6 +1,6 @@
 # BSX JavaScript SDK
 
-The JS Buy SDK is a lightweight library that allows you to interact with BSX API.
+The BSX JS SDK is a lightweight library that allows you to interact with BSX API.
 
 ## Table Of Contents
 
