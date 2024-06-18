@@ -24,4 +24,5 @@ export interface OrderInput {
   post_only?: boolean;
   nonce?: string;
   reduce_only?: boolean;
+  client_order_id?: string;
 }

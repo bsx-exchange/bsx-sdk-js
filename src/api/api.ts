@@ -3,6 +3,7 @@ import type { AxiosInstance } from 'axios';
 import axios from 'axios';
 
 import type {
+  BatchUpdateOrdersBody,
   CancelBulkOrdersBody,
   ChainConfigResult,
   CreateOrderBody,
@@ -75,6 +76,9 @@ export class ApiInstance {
         data: body,
       },
     );
+
+  batchUpdateOrders = (body: BatchUpdateOrdersBody) =>
+    this.api.post('orders/batch', body);
 
   getUserTradeHistory = (body: URLSearchParams) =>
     this.api.get('trade-history', body);

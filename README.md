@@ -12,6 +12,7 @@ The BSX JS SDK is a lightweight library that allows you to interact with BSX API
   + [Register account (only for initializing with user wallet and signer)](#register-account-only-for-initializing-with-user-wallet-and-signer)
   + [Using other api base url](#using-other-api-base-url)
   + [Create order](#create-order)
+  + [Batch update orders](#batch-update-orders)
   + [Submit withdraw request](#submit-withdraw-request)
   + [Get all open orders](#get-all-open-orders)
   + [Get orders history](#get-orders-history)
@@ -279,6 +280,48 @@ const main = async () => {
       post_only: false,
       reduce_only: false,
     })
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+main();
+```
+
+### Batch update orders
+Create and cancel orders in batch
+
+```javascript
+import { BsxInstance, ENV_NAME } from '@bsx-exchange/client';
+
+const main = async () => {
+  try {
+    const bsxInstance = await BsxInstance.createWithApiKey(
+      '<api-key>',
+      '<api-secret>',
+      '<signer-private-key>',
+      ENV_NAME.TESTNET,
+    );
+    const resBatchUpdateOrders = await bsxInstance.batchUpdateOrders([
+      {
+        op_type: 'CREATE',
+        create_order_request: {
+          side: 'BUY',
+          type: 'LIMIT',
+          product_index: 1,
+          price: '1000',
+          size: '0.01',
+          post_only: false,
+          reduce_only: false,
+        }
+      },
+      {
+        op_type: 'CANCEL',
+        cancel_request: {
+          orderId: 'order_id'
+        }
+      }
+    ]);
   } catch (error) {
     console.log('Error', error);
   }

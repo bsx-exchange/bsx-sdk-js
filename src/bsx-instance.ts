@@ -12,6 +12,7 @@ import {
   toServerTime,
 } from './helper/general-helper';
 import type {
+  BatchOperationParams,
   CreateOrderBody,
   GetTransferHistoryBody,
   GetUserTradeHistoryBody,
@@ -154,8 +155,8 @@ export class BsxInstance {
 
     const { body, orderMessage } = createOrderBodyAndMessage(
       {
-        ...orderInput,
         nonce: nowInNano(),
+        ...orderInput,
       },
       this.userAddress,
     );
@@ -172,6 +173,60 @@ export class BsxInstance {
     };
 
     return apiCallWithBody(this.apiInstance.createOrder, payload);
+  };
+
+  batchUpdateOrders = async (
+    data: {
+      op_type: 'CANCEL' | 'CREATE';
+      cancel_request?: {
+        order_id?: string;
+        nonce?: string;
+        client_order_id?: string;
+      };
+      create_order_request?: OrderInput;
+    }[],
+  ) => {
+    if (!this.signerWallet) throw new Error('Signer wallet is not defined');
+    if (!this.userAddress) throw new Error('User address is not defined');
+    const domainData = await this.appConfig.getDomainData();
+
+    const batchBody: BatchOperationParams[] = [];
+    for (let i = 0; i < data.length; i += 1) {
+      const item = data[i]!;
+      if (item.op_type === 'CANCEL') {
+        batchBody.push({
+          op_type: 'CANCEL',
+          cancel_request: item.cancel_request,
+        });
+      } else {
+        const { body, orderMessage } = createOrderBodyAndMessage(
+          {
+            nonce: nowInNano(),
+            ...item.create_order_request!,
+          },
+          this.userAddress,
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const orderSignature = await this.signerWallet.signTypedData(
+          domainData,
+          { Order: SIGN_DATA_TYPE.ORDER_TYPE },
+          orderMessage,
+        );
+        const payload: CreateOrderBody = {
+          ...body,
+          signature: orderSignature,
+        };
+        batchBody.push({
+          op_type: 'CREATE',
+          create_order_request: payload,
+        });
+      }
+    }
+
+    return apiCallWithBody(this.apiInstance.batchUpdateOrders, {
+      data: batchBody,
+    });
   };
 
   submitWithdrawalRequest = async (amount: string) => {

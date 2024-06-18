@@ -228,3 +228,16 @@ export interface DeleteAllOrdersResult {
     nonce: string;
   }[];
 }
+
+export type BatchOperationParams = {
+  op_type: 'CANCEL' | 'CREATE';
+  cancel_request?: {
+    order_id?: string;
+    nonce?: string;
+    client_order_id?: string;
+  };
+  create_order_request?: CreateOrderBody;
+};
+export interface BatchUpdateOrdersBody {
+  data: BatchOperationParams[];
+}

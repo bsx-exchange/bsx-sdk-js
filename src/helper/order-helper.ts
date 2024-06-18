@@ -19,6 +19,7 @@ export const createOrderBodyAndMessage = (
     reduce_only,
     time_in_force,
     stp,
+    client_order_id,
   } = orderInput;
   const body = {
     side,
@@ -32,6 +33,7 @@ export const createOrderBodyAndMessage = (
     nonce: nonce || `${dayjs().valueOf()}000000`,
     post_only: !!post_only,
     reduce_only: !!reduce_only,
+    client_order_id,
   };
 
   const orderMessage: OrderMessage = {
