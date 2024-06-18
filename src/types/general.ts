@@ -20,6 +20,7 @@ export interface OrderInput {
   price: string;
   size: string;
   time_in_force?: 'FOK' | 'GTC';
+  stp?: 'CANCEL_TAKER' | 'CANCEL_MAKER';
   post_only?: boolean;
   nonce?: string;
   reduce_only?: boolean;

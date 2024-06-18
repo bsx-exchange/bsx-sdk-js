@@ -18,12 +18,14 @@ export const createOrderBodyAndMessage = (
     nonce,
     reduce_only,
     time_in_force,
+    stp,
   } = orderInput;
   const body = {
     side,
     type,
     time_in_force:
       time_in_force || (type === 'MARKET' || reduce_only ? 'FOK' : 'GTC'),
+    stp,
     product_index,
     price,
     size,

@@ -3,6 +3,7 @@ export interface CreateOrderBody {
   side: 'BUY' | 'SELL';
   type: 'MARKET' | 'LIMIT' | 'STOP';
   time_in_force: 'FOK' | 'GTC' | 'IOC';
+  stp?: 'CANCEL_TAKER' | 'CANCEL_MAKER';
   product_index: number;
   price: string;
   size: string;
@@ -50,6 +51,7 @@ export interface CreateOrderResult {
   side: string;
   type: string;
   time_in_force: string;
+  stp: string;
   nonce: string;
   post_only: boolean;
   created_at: string;
