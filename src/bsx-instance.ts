@@ -16,6 +16,7 @@ import type {
   CreateOrderBody,
   GetTransferHistoryBody,
   GetUserTradeHistoryBody,
+  OpType,
   ProductId,
 } from './types/api-types';
 import { type EnvName, type OrderInput } from './types/general';
@@ -177,13 +178,21 @@ export class BsxInstance {
 
   batchUpdateOrders = async (
     data: {
-      op_type: 'CANCEL' | 'CREATE';
+      op_type: OpType;
       cancel_request?: {
         order_id?: string;
         nonce?: string;
         client_order_id?: string;
       };
       create_order_request?: OrderInput;
+      cancel_orders_request: {
+        order_ids?: string[];
+        nonces?: string[];
+        client_order_ids?: string[];
+      };
+      cancel_all_orders_request: {
+        product_id: string;
+      };
     }[],
   ) => {
     if (!this.signerWallet) throw new Error('Signer wallet is not defined');
@@ -197,6 +206,16 @@ export class BsxInstance {
         batchBody.push({
           op_type: 'CANCEL',
           cancel_request: item.cancel_request,
+        });
+      } else if (item.op_type === 'CANCEL_BULK') {
+        batchBody.push({
+          op_type: 'CANCEL_BULK',
+          cancel_orders_request: item.cancel_orders_request,
+        });
+      } else if (item.op_type === 'CANCEL_ALL') {
+        batchBody.push({
+          op_type: 'CANCEL_ALL',
+          cancel_all_orders_request: item.cancel_all_orders_request,
         });
       } else {
         const { body, orderMessage } = createOrderBodyAndMessage(
