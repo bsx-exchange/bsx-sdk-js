@@ -321,6 +321,18 @@ const main = async () => {
           orderId: 'order_id'
         }
       }
+      {
+        op_type: "CANCEL_BULK",
+        cancel_orders_request: {
+          "order_ids": ['order_id_1', 'order_id_2'],
+        }
+      },
+      {
+        op_type: "CANCEL_ALL",
+        cancel_all_orders_request: {
+          "product_id": "BTC-PERP"
+        }
+      }
     ]);
   } catch (error) {
     console.log('Error', error);
