@@ -14,6 +14,7 @@ import type {
   DeleteOrderResult,
   GetTransferHistoryBody,
   OpenOrderResult,
+  OrderHistoryResult,
   PortfolioDetail,
   RegisterBody,
   RegisterResult,
@@ -60,7 +61,7 @@ export class ApiInstance {
   getOpenOrders = () => this.api.get<OpenOrderResult>('orders');
 
   getOrderHistory = (body: URLSearchParams) =>
-    this.api.get('order-history', body);
+    this.api.get<OrderHistoryResult>('order-history', body);
 
   cancelOrder = (order_id: string) =>
     this.api.delete<DeleteOrderResult>('order', { order_id });
