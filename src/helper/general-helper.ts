@@ -17,6 +17,13 @@ export const toServerTime = (datetime: Dayjs) => {
   return `${datetime.valueOf()}000000`;
 };
 
+export const toClientTime = (time?: string | undefined): Dayjs => {
+  // eslint-disable-next-line no-restricted-globals
+  if (!time || isNaN(+time)) return dayjs();
+  const datetime = `${time}`;
+  return dayjs(+datetime.slice(0, -6));
+};
+
 export const anyToWei = (value: any, fallback: any = '0') => {
   try {
     // eslint-disable-next-line no-restricted-globals
