@@ -55,6 +55,7 @@ export interface CreateOrderResult {
   nonce: string;
   post_only: boolean;
   created_at: string;
+  created_at_ts: string;
   cancel_reason: string;
   reject_reason: string;
   cancel_reject_reason: string;
@@ -91,6 +92,7 @@ interface UserOrder {
   nonce: string;
   post_only: boolean;
   created_at: string;
+  created_at_ts: string;
   cancel_reason: string;
   reject_reason: string;
   cancel_reject_reason: string;
@@ -107,6 +109,8 @@ interface UserOrder {
 }
 
 export type OpenOrderResult = UserOrder[];
+
+export type OrderHistoryResult = UserOrder[];
 
 export interface DeleteOrderResult {
   order_id: string;

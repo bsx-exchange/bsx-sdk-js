@@ -77,7 +77,7 @@ const main = async () => {
     const resCreateOrder = await bsxInstance.createOrder({
       side: 'BUY',
       type: 'LIMIT',
-      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP ... (check Product Index section)
+      product_index: 1, // 1 for BTC-PERP, 2 for ETH_PERP ... (check Product Index section)
       price: '1000',
       size: '0.01',
       post_only: false,
@@ -90,7 +90,7 @@ const main = async () => {
     console.log('getAllOpenOrders', resOpenOrder.result, resOpenOrder.error);
 
     // Get order history
-    const resOrderHistory = await bsxInstance.getOrderHistory('BTC_PERP');
+    const resOrderHistory = await bsxInstance.getOrderHistory('BTC-PERP');
     console.log('getOrderHistory', resOrderHistory.result, resOrderHistory.error);
 
     // Cancel order
@@ -138,7 +138,7 @@ const main = async () => {
     const resCreateOrder = await bsxInstance.createOrder({
       side: 'BUY',
       type: 'LIMIT',
-      product_index: 1, // 1 for BTC_PERP, 2 for ETH_PERP ... (check Product Index section)
+      product_index: 1, // 1 for BTC-PERP, 2 for ETH_PERP ... (check Product Index section)
       price: '1000',
       size: '0.01',
       post_only: false,
@@ -151,7 +151,7 @@ const main = async () => {
     console.log('getAllOpenOrders', resOpenOrder.result, resOpenOrder.error);
 
     // Get order history
-    const resOrderHistory = await bsxInstance.getOrderHistory('BTC_PERP');
+    const resOrderHistory = await bsxInstance.getOrderHistory('BTC-PERP');
     console.log('getOrderHistory', resOrderHistory.result, resOrderHistory.error);
 
     // Cancel order
@@ -375,7 +375,7 @@ Get order history
 
 ```javascript
 bsxInstance
-  .getOrderHistory('BTC_PERP') // pass '' to get all
+  .getOrderHistory('BTC-PERP') // pass '' to get all
   .then(({ result, error, curl }) => {
     console.log('getOrderHistory', result, error, curl);
   })
@@ -416,7 +416,7 @@ Cancel all open orders of a product
 
 ```javascript
 bsxInstance
-  .cancelAllOrders('BTC_PERP')
+  .cancelAllOrders('BTC-PERP')
   .then(({ result, error, curl }) => {
     console.log('cancelAllOrders', result, error, curl);
   })
@@ -490,7 +490,7 @@ Get funding history
 
 ```javascript
 bsxInstance
-  .getFundingHistory('BTC_PERP') // pass '' to get all
+  .getFundingHistory('BTC-PERP') // pass '' to get all
   .then(({ result, error, curl }) => {
     console.log('getFundingHistory', result, error, curl);
   })
@@ -563,7 +563,7 @@ bsxInstance
 ## Product Index
 Product index is used to identify the product when creating order. The index is as follows:
 
-- 1: BTC_PERP
+- 1: BTC-PERP
 - 2: ETH_PERP
 - 3: SOL_PERP
 - 4: WIF_PERP

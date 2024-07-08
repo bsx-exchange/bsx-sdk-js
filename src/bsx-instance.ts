@@ -9,6 +9,7 @@ import { createOrderBodyAndMessage } from './helper';
 import {
   anyToFloatWithIncrement,
   nowInNano,
+  toClientTime,
   toServerTime,
 } from './helper/general-helper';
 import type {
@@ -173,7 +174,21 @@ export class BsxInstance {
       signature: orderSignature,
     };
 
-    return apiCallWithBody(this.apiInstance.createOrder, payload);
+    const { result, error, curl } = await apiCallWithBody(
+      this.apiInstance.createOrder,
+      payload,
+    );
+
+    return {
+      result: result
+        ? {
+            ...result,
+            created_at: toClientTime(result.created_at_ts).toISOString(),
+          }
+        : undefined,
+      error,
+      curl,
+    };
   };
 
   batchUpdateOrders = async (
@@ -284,13 +299,36 @@ export class BsxInstance {
     });
   };
 
-  getAllOpenOrders = async () => apiCall(this.apiInstance.getOpenOrders);
+  getAllOpenOrders = async () => {
+    const { result, error, curl } = await apiCall(
+      this.apiInstance.getOpenOrders,
+    );
 
-  getOrderHistory = async (product_id: string) =>
-    apiCallWithBody(
+    return {
+      result: result?.map((item) => ({
+        ...item,
+        created_at: toClientTime(item.created_at_ts).toISOString(),
+      })),
+      error,
+      curl,
+    };
+  };
+
+  getOrderHistory = async (product_id: string) => {
+    const { result, error, curl } = await apiCallWithBody(
       this.apiInstance.getOrderHistory,
       createGetOrderParams({ product_id }),
     );
+
+    return {
+      result: result?.map((item) => ({
+        ...item,
+        created_at: toClientTime(item.created_at_ts).toISOString(),
+      })),
+      error,
+      curl,
+    };
+  };
 
   cancelOrder = async (order_id: string) =>
     apiCallWithBody(this.apiInstance.cancelOrder, order_id);
