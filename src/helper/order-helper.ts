@@ -18,6 +18,7 @@ export const createOrderBodyAndMessage = (
     nonce,
     reduce_only,
     time_in_force,
+    expired_at,
     stp,
     client_order_id,
   } = orderInput;
@@ -26,6 +27,7 @@ export const createOrderBodyAndMessage = (
     type,
     time_in_force:
       time_in_force || (type === 'MARKET' || reduce_only ? 'FOK' : 'GTC'),
+    expired_at,
     stp,
     product_index,
     price,

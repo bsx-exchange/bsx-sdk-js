@@ -2,7 +2,8 @@
 export interface CreateOrderBody {
   side: 'BUY' | 'SELL';
   type: 'MARKET' | 'LIMIT' | 'STOP';
-  time_in_force: 'FOK' | 'GTC' | 'IOC';
+  time_in_force: 'FOK' | 'GTC' | 'IOC' | 'GTT';
+  expired_at?: string;
   stp?: 'CANCEL_TAKER' | 'CANCEL_MAKER';
   product_index: number;
   price: string;
