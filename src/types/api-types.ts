@@ -71,6 +71,12 @@ export interface CreateOrderResult {
   reduce_only: boolean;
 }
 
+interface ContractInfo {
+  name: string;
+  version: string;
+  chain_id: string;
+  verifying_contract: string;
+}
 export interface ChainConfigResult {
   name: string;
   version: string;
@@ -78,7 +84,10 @@ export interface ChainConfigResult {
   verifying_contract: string;
   addresses: {
     usdc_contract: string;
+    degen_contract: string;
   };
+  main: ContractInfo;
+  degen: ContractInfo;
 }
 
 interface UserOrder {
@@ -192,6 +201,9 @@ export interface PositionData extends ProductInfo {
 export interface ProductInfo {
   product_id: string;
   index: number;
+  predicted_funding_rate: string;
+  display_name: string;
+  display_base_asset_symbol: string;
   base_asset_symbol: string;
   quote_asset_symbol: string;
   underlying: string;
@@ -211,8 +223,8 @@ export interface ProductInfo {
   max_position_size: string;
   open_interest: string;
   funding_interval: string;
-  next_funding_rate: string;
   post_only: boolean;
+  visible: boolean;
 }
 
 interface Perpetualproductconfig {
