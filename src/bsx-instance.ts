@@ -200,12 +200,12 @@ export class BsxInstance {
         client_order_id?: string;
       };
       create_order_request?: OrderInput;
-      cancel_orders_request: {
+      cancel_orders_request?: {
         order_ids?: string[];
         nonces?: string[];
         client_order_ids?: string[];
       };
-      cancel_all_orders_request: {
+      cancel_all_orders_request?: {
         product_id: string;
       };
     }[],

@@ -19,7 +19,8 @@ export interface OrderInput {
   type?: 'MARKET' | 'LIMIT';
   price: string;
   size: string;
-  time_in_force?: 'FOK' | 'GTC' | 'IOC';
+  time_in_force?: 'FOK' | 'GTC' | 'IOC' | 'GTT';
+  expired_at?: string;
   stp?: 'CANCEL_TAKER' | 'CANCEL_MAKER';
   post_only?: boolean;
   nonce?: string;
