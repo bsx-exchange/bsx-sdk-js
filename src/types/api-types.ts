@@ -62,7 +62,7 @@ export interface CreateOrderResult {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE';
+  status: string;
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
@@ -85,10 +85,11 @@ export interface ChainConfigResult {
 interface UserOrder {
   id: string;
   price: string;
+  stop_price: string;
   size: string;
   product_id: string;
   side: string;
-  type: string;
+  type: 'LIMIT' | 'MARKET' | 'STOP';
   time_in_force: string;
   nonce: string;
   post_only: boolean;
@@ -99,15 +100,18 @@ interface UserOrder {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE';
+  status: string;
   sender: string;
   avg_price: string;
+  order_stop_type: 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
   cancel_requested: boolean;
   is_liquidation: boolean;
   initial_margin: string;
   last_trades: any[];
   reduce_only: boolean;
+  stop_price_option: StopPriceOption;
 }
+
 
 export type OpenOrderResult = UserOrder[];
 
@@ -188,6 +192,10 @@ export interface PositionData extends ProductInfo {
   unsettled_funding: string;
   funding_index: string;
   quote_balance: string;
+  stop_position: {
+    nearest_take_profit: { price: string; size: string; stop_price_option: StopPriceOption };
+    nearest_stop_loss: { price: string; size: string; stop_price_option: StopPriceOption };
+  };
 }
 
 export interface ProductInfo {
@@ -255,3 +263,5 @@ export type BatchOperationParams = {
 export interface BatchUpdateOrdersBody {
   data: BatchOperationParams[];
 }
+
+export type StopPriceOption = 'MARK_PRICE' | 'LAST_TRADED_PRICE';
