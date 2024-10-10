@@ -174,10 +174,16 @@ export interface PortfolioDetailSummary {
   usdc_balance: string;
   unsettled_usdc: string;
   realized_pnl: string;
-  total_intial_margin: string;
+  total_initial_margin: string;
   total_maintenance_margin: string;
+  token_balances: TokenBalance[];
+  margin_health: string;
+  total_collateral_value: string;
 }
-
+export interface TokenBalance {
+  address: string;
+  balance: string;
+}
 export interface PositionData extends ProductInfo {
   product_index: number;
   product_id: string;
@@ -201,6 +207,9 @@ export interface PositionData extends ProductInfo {
 export interface ProductInfo {
   product_id: string;
   index: number;
+  visible: boolean;
+  display_name: string;
+  display_base_asset_symbol: string;
   base_asset_symbol: string;
   quote_asset_symbol: string;
   underlying: string;
@@ -220,7 +229,7 @@ export interface ProductInfo {
   max_position_size: string;
   open_interest: string;
   funding_interval: string;
-  next_funding_rate: string;
+  predicted_funding_rate: string;
   post_only: boolean;
 }
 
