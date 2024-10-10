@@ -76,10 +76,22 @@ export interface ChainConfigResult {
   name: string;
   version: string;
   chain_id: string;
-  verifying_contract: string;
+  verifying_contract: `0x${string}`;
   addresses: {
-    usdc_contract: string;
+    usdc_contract: `0x${string}`;
+    degen_contract: `0x${string}`;
+    weth_contract: `0x${string}`;
+    usdt_contract: `0x${string}`;
   };
+  main: DomainData;
+  degen: DomainData;
+}
+
+interface DomainData {
+  name: string;
+  version: string;
+  chain_id: string;
+  verifying_contract: `0x${string}`;
 }
 
 interface UserOrder {
