@@ -62,7 +62,7 @@ export interface CreateOrderResult {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE';
+  status: string;
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
@@ -76,19 +76,32 @@ export interface ChainConfigResult {
   name: string;
   version: string;
   chain_id: string;
-  verifying_contract: string;
+  verifying_contract: `0x${string}`;
   addresses: {
-    usdc_contract: string;
+    usdc_contract: `0x${string}`;
+    degen_contract: `0x${string}`;
+    weth_contract: `0x${string}`;
+    usdt_contract: `0x${string}`;
   };
+  main: DomainData;
+  degen: DomainData;
+}
+
+interface DomainData {
+  name: string;
+  version: string;
+  chain_id: string;
+  verifying_contract: `0x${string}`;
 }
 
 interface UserOrder {
   id: string;
   price: string;
+  stop_price: string;
   size: string;
   product_id: string;
   side: string;
-  type: string;
+  type: 'LIMIT' | 'MARKET' | 'STOP';
   time_in_force: string;
   nonce: string;
   post_only: boolean;
@@ -99,15 +112,18 @@ interface UserOrder {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE';
+  status: string;
   sender: string;
   avg_price: string;
+  order_stop_type: 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
   cancel_requested: boolean;
   is_liquidation: boolean;
   initial_margin: string;
   last_trades: any[];
   reduce_only: boolean;
+  stop_price_option: StopPriceOption;
 }
+
 
 export type OpenOrderResult = UserOrder[];
 
@@ -170,10 +186,16 @@ export interface PortfolioDetailSummary {
   usdc_balance: string;
   unsettled_usdc: string;
   realized_pnl: string;
-  total_intial_margin: string;
+  total_initial_margin: string;
   total_maintenance_margin: string;
+  token_balances: TokenBalance[];
+  margin_health: string;
+  total_collateral_value: string;
 }
-
+export interface TokenBalance {
+  address: string;
+  balance: string;
+}
 export interface PositionData extends ProductInfo {
   product_index: number;
   product_id: string;
@@ -188,11 +210,18 @@ export interface PositionData extends ProductInfo {
   unsettled_funding: string;
   funding_index: string;
   quote_balance: string;
+  stop_position: {
+    nearest_take_profit: { price: string; size: string; stop_price_option: StopPriceOption };
+    nearest_stop_loss: { price: string; size: string; stop_price_option: StopPriceOption };
+  };
 }
 
 export interface ProductInfo {
   product_id: string;
   index: number;
+  visible: boolean;
+  display_name: string;
+  display_base_asset_symbol: string;
   base_asset_symbol: string;
   quote_asset_symbol: string;
   underlying: string;
@@ -212,7 +241,7 @@ export interface ProductInfo {
   max_position_size: string;
   open_interest: string;
   funding_interval: string;
-  next_funding_rate: string;
+  predicted_funding_rate: string;
   post_only: boolean;
 }
 
@@ -255,3 +284,5 @@ export type BatchOperationParams = {
 export interface BatchUpdateOrdersBody {
   data: BatchOperationParams[];
 }
+
+export type StopPriceOption = 'MARK_PRICE' | 'LAST_TRADED_PRICE';

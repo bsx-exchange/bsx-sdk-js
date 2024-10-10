@@ -1,6 +1,9 @@
 import type { ApiInstance } from './api';
 import { handleError } from './api';
 import type { DomainData } from './types/general';
+import type { ChainConfigResult } from './types/api-types';
+import { ApiError } from './api/api-helper';
+
 
 export class AppConfig {
   constructor(apiInstance?: ApiInstance) {
@@ -16,13 +19,13 @@ export class AppConfig {
   getDomainDataFromBe = async () => {
     if (!this.apiInstance) throw new Error('apiInstance is not defined');
     const res = await this.apiInstance?.getChainConfigs();
-    const { result, error } = handleError(res);
+    const { result, error } = handleError(res) as { result: ChainConfigResult | undefined, error: ApiError | undefined };
     if (error || !result) return { error };
     const domainData: DomainData = {
-      name: result.name,
-      version: result.version,
-      chainId: Number(result.chain_id), // 84531 Goerli, 84532 Sepolia
-      verifyingContract: result.verifying_contract,
+      name: result?.main.name,
+      version: result?.main.version,
+      chainId: Number(result?.main.chain_id), // 84531 Goerli, 84532 Sepolia
+      verifyingContract: result?.main.verifying_contract,
     };
     this.domainData = domainData;
     this.usdcAddress = result.addresses.usdc_contract;
