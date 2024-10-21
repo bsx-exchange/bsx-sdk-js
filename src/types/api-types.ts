@@ -55,14 +55,13 @@ export interface CreateOrderResult {
   stp: string;
   nonce: string;
   post_only: boolean;
-  created_at: string;
   created_at_ts: string;
   cancel_reason: string;
   reject_reason: string;
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: string;
+  status: 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED';
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
@@ -70,6 +69,16 @@ export interface CreateOrderResult {
   initial_margin: string;
   last_trades: any[];
   reduce_only: boolean;
+  order_stop_type: string;
+  stop_price: string;
+  client_order_id: string;
+  updated_at: string;
+  cancel_requested_at: string;
+  liquidation_fee_rate: string;
+  maker_fee_rate: string;
+  taker_fee_rate: string;
+  stop_price_option: string;
+  expired_at: string;
 }
 
 export interface ChainConfigResult {
@@ -105,14 +114,13 @@ interface UserOrder {
   time_in_force: string;
   nonce: string;
   post_only: boolean;
-  created_at: string;
   created_at_ts: string;
   cancel_reason: string;
   reject_reason: string;
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: string;
+  status: 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED'; 
   sender: string;
   avg_price: string;
   order_stop_type: 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
@@ -122,6 +130,14 @@ interface UserOrder {
   last_trades: any[];
   reduce_only: boolean;
   stop_price_option: StopPriceOption;
+  client_order_id: string;
+  stp: string;
+  updated_at: string;
+  cancel_requested_at: string;
+  liquidation_fee_rate: string;
+  maker_fee_rate: string;
+  taker_fee_rate: string;
+  expired_at: string;
 }
 
 
@@ -191,6 +207,8 @@ export interface PortfolioDetailSummary {
   token_balances: TokenBalance[];
   margin_health: string;
   total_collateral_value: string;
+  has_pending_swap: boolean;
+  total_unrealized_pnl: string;
 }
 export interface TokenBalance {
   address: string;
@@ -243,6 +261,7 @@ export interface ProductInfo {
   funding_interval: string;
   predicted_funding_rate: string;
   post_only: boolean;
+  next_funding_time: string;
 }
 
 interface Perpetualproductconfig {

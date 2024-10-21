@@ -22,10 +22,10 @@ export class AppConfig {
     const { result, error } = handleError(res) as { result: ChainConfigResult | undefined, error: ApiError | undefined };
     if (error || !result) return { error };
     const domainData: DomainData = {
-      name: result?.main.name,
-      version: result?.main.version,
-      chainId: Number(result?.main.chain_id), // 84531 Goerli, 84532 Sepolia
-      verifyingContract: result?.main.verifying_contract,
+      name: result.main.name,
+      version: result.main.version,
+      chainId: Number(result.main.chain_id), // 84531 Goerli, 84532 Sepolia
+      verifyingContract: result.main.verifying_contract,
     };
     this.domainData = domainData;
     this.usdcAddress = result.addresses.usdc_contract;
