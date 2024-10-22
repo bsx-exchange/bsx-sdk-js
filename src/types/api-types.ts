@@ -77,7 +77,7 @@ export interface CreateOrderResult {
   liquidation_fee_rate: string;
   maker_fee_rate: string;
   taker_fee_rate: string;
-  stop_price_option: string;
+  stop_price_option: StopPriceOption;
   expired_at: string;
 }
 
@@ -85,7 +85,7 @@ export interface ChainConfigResult {
   name: string;
   version: string;
   chain_id: string;
-  verifying_contract: `0x${string}`;
+  verifying_contract: string;
   addresses: {
     usdc_contract: `0x${string}`;
     degen_contract: `0x${string}`;
@@ -100,7 +100,7 @@ interface DomainData {
   name: string;
   version: string;
   chain_id: string;
-  verifying_contract: `0x${string}`;
+  verifying_contract: string;
 }
 
 interface UserOrder {
