@@ -1,10 +1,10 @@
 // ORDER
 export interface CreateOrderBody {
   side: 'BUY' | 'SELL';
-  type: 'MARKET' | 'LIMIT' | 'STOP';
+  type: OrderType;
   time_in_force: 'FOK' | 'GTC' | 'IOC' | 'GTT';
   expired_at?: string;
-  stp?: 'CANCEL_TAKER' | 'CANCEL_MAKER';
+  stp?: OrderStpFlag;
   product_index: number;
   price: string;
   size: string;
@@ -52,7 +52,7 @@ export interface CreateOrderResult {
   side: string;
   type: string;
   time_in_force: string;
-  stp: string;
+  stp: OrderStpFlag;
   nonce: string;
   post_only: boolean;
   created_at_ts: string;
@@ -61,15 +61,15 @@ export interface CreateOrderResult {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED';
+  status: OrderStatus;
   sender: string;
   avg_price: string;
   cancel_requested: boolean;
   is_liquidation: boolean;
   initial_margin: string;
-  last_trades: any[];
+  last_trades: Trade[];
   reduce_only: boolean;
-  order_stop_type: string;
+  order_stop_type: OrderStopType;
   stop_price: string;
   client_order_id: string;
   updated_at: string;
@@ -79,6 +79,17 @@ export interface CreateOrderResult {
   taker_fee_rate: string;
   stop_price_option: StopPriceOption;
   expired_at: string;
+}
+
+export interface Trade {
+  id: string;
+  price: string;
+  size: string;
+  liquidity_indicator: string;
+  time: number;
+  funding_payment: string;
+  trading_fee: string;
+  sequencer_fee: string;
 }
 
 export interface ChainConfigResult {
@@ -91,6 +102,7 @@ export interface ChainConfigResult {
     degen_contract: `0x${string}`;
     weth_contract: `0x${string}`;
     usdt_contract: `0x${string}`;
+    cbbtc_contract: `0x${string}`;
   };
   main: DomainData;
   degen: DomainData;
@@ -110,7 +122,7 @@ interface UserOrder {
   size: string;
   product_id: string;
   side: string;
-  type: 'LIMIT' | 'MARKET' | 'STOP';
+  type: OrderType;
   time_in_force: string;
   nonce: string;
   post_only: boolean;
@@ -120,18 +132,18 @@ interface UserOrder {
   cancel_reject_reason: string;
   filled_fees: string;
   filled_size: string;
-  status: 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED'; 
+  status: OrderStatus; 
   sender: string;
   avg_price: string;
-  order_stop_type: 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
+  order_stop_type: OrderStopType;
   cancel_requested: boolean;
   is_liquidation: boolean;
   initial_margin: string;
-  last_trades: any[];
+  last_trades: Trade[];
   reduce_only: boolean;
   stop_price_option: StopPriceOption;
   client_order_id: string;
-  stp: string;
+  stp: OrderStpFlag;
   updated_at: string;
   cancel_requested_at: string;
   liquidation_fee_rate: string;
@@ -232,6 +244,7 @@ export interface PositionData extends ProductInfo {
     nearest_take_profit: { price: string; size: string; stop_price_option: StopPriceOption };
     nearest_stop_loss: { price: string; size: string; stop_price_option: StopPriceOption };
   };
+  index_price: string;
 }
 
 export interface ProductInfo {
@@ -248,6 +261,7 @@ export interface ProductInfo {
   min_order_size: string;
   is_active: boolean;
   perpetual_product_config: Perpetualproductconfig;
+  spot_product_config: Spotproductconfig;
   last_cumulative_funding: string;
   quote_volume_24h: string;
   change_24h: string;
@@ -269,6 +283,7 @@ interface Perpetualproductconfig {
   maintenance_margin: string;
   max_leverage: string;
 }
+interface Spotproductconfig {}
 
 export type ProductId = 'BTC-PERP' | 'ETH-PERP' | 'SOL-PERP' | 'WIF-PERP';
 export interface DeleteAllOrdersBody {
@@ -304,4 +319,8 @@ export interface BatchUpdateOrdersBody {
   data: BatchOperationParams[];
 }
 
-export type StopPriceOption = 'MARK_PRICE' | 'LAST_TRADED_PRICE';
+export type StopPriceOption = 'MARK_PRICE' | 'LAST_TRADED_PRICE' | 'NONE';
+export type OrderStpFlag = 'CANCEL_TAKER' | 'CANCEL_MAKER';
+export type OrderStopType = 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
+export type OrderStatus = 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED';
+export type OrderType = 'LIMIT' | 'MARKET' | 'STOP';
