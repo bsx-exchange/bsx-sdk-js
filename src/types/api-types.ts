@@ -180,12 +180,21 @@ export interface PortfolioDetail {
   summary: PortfolioDetailSummary;
   positions: PositionData[];
   stats: PortfolioStats;
+  maker_fee: number,
+  taker_fee: number
 }
 
 export interface PortfolioStats {
   order_stats: Orderstats;
   products: ProductStat[];
   trading_stats: TradingStats;
+  tokens: TokenStat[];
+}
+
+export interface TokenStat {
+  address: string;
+  total_deposit: string;
+  total_withdraw: string;
 }
 
 interface TradingStats {
@@ -204,9 +213,11 @@ export interface Orderstats {
   total_pending_orders: string;
 }
 export interface PortfolioDetailSummary {
+  collateral_mode: CollateralMode;
+  collateral_margin_balance: string;
+  cross_margin_balance: string;
   margin_usage: string;
   account_leverage: string;
-  has_pending_withdrawal: boolean;
   in_liquidation: boolean;
   free_collateral: string;
   total_account_value: string;
@@ -217,18 +228,24 @@ export interface PortfolioDetailSummary {
   total_initial_margin: string;
   total_maintenance_margin: string;
   token_balances: TokenBalance[];
-  margin_health: string;
-  total_collateral_value: string;
-  has_pending_swap: boolean;
+  has_pending_withdrawal: boolean;
   total_unrealized_pnl: string;
+  total_collateral_value: string;
+  margin_health: string;
+  has_pending_swap: boolean;
+  total_isolated_order_reserve: string;
 }
+
 export interface TokenBalance {
   address: string;
   balance: string;
 }
+
 export interface PositionData extends ProductInfo {
   product_index: number;
   product_id: string;
+  margin_mode: MarginMode;
+  margin_balance: string;
   net_size: string;
   avg_entry_price: string;
   initial_margin_requirement: string;
@@ -245,6 +262,9 @@ export interface PositionData extends ProductInfo {
     nearest_stop_loss: { price: string; size: string; stop_price_option: StopPriceOption };
   };
   index_price: string;
+  isolated_usdc_balance: string;
+  in_isolated_liquidation: boolean;
+  free_isolated_usdc_balance: string;
 }
 
 export interface ProductInfo {
@@ -324,3 +344,5 @@ export type OrderStpFlag = 'CANCEL_TAKER' | 'CANCEL_MAKER';
 export type OrderStopType = 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';
 export type OrderStatus = 'PENDING' | 'OPEN' | 'DONE' | 'STOP_ACCEPTED';
 export type OrderType = 'LIMIT' | 'MARKET' | 'STOP';
+export type CollateralMode = 'MULTI_COLLATERAL' | 'USDC_COLLATERAL';
+export type MarginMode = 'CROSS' | 'ISOLATED';
