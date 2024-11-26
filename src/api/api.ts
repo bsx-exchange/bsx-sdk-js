@@ -20,6 +20,7 @@ import type {
   RegisterResult,
   SubmitWithdrawalRequestBody,
   UpdateCollateralModeBody,
+  UpdateLeverageBody,
   UpdateMarginModeBody
 } from '../types';
 
@@ -97,6 +98,8 @@ export class ApiInstance {
   updateCollateralMode = (body: UpdateCollateralModeBody) => this.api.post('collateral-mode', body);
 
   updateMarginMode = (body: UpdateMarginModeBody) => this.api.post('margin-mode', body);
+
+  updateLeverage = (body: UpdateLeverageBody) => this.api.post('leverage', body);
 
   // API KEY
   getApiKeyList = () => this.api.get('users/api-key');

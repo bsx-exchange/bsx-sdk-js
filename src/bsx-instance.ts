@@ -20,6 +20,7 @@ import type {
   OpType,
   ProductId,
   UpdateCollateralModeBody,
+  UpdateLeverageBody,
   UpdateMarginModeBody,
 } from './types/api-types';
 import { type EnvName, type OrderInput } from './types/general';
@@ -380,6 +381,9 @@ export class BsxInstance {
 
   updateMarginMode = async (body: UpdateMarginModeBody) =>
     apiCallWithBody(this.apiInstance.updateMarginMode, body);
+
+  updateLeverage = async (body: UpdateLeverageBody) => 
+    apiCallWithBody(this.apiInstance.updateLeverage, body);
 }
 
 const apiCall = async <T, U>(apiFunction: () => Promise<ApiResponse<T, U>>) => {
