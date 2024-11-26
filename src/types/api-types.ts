@@ -353,6 +353,11 @@ export interface UpdateLeverageBody {
   leverage: number;
 }
 
+export interface ModifyIsolatedPositionMarginBody {
+  product_id: string;
+  amount: string;
+}
+
 export type StopPriceOption = 'MARK_PRICE' | 'LAST_TRADED_PRICE' | 'NONE';
 export type OrderStpFlag = 'CANCEL_TAKER' | 'CANCEL_MAKER';
 export type OrderStopType = 'TAKE_PROFIT' | 'STOP_LOSS' | 'STOP_NONE';

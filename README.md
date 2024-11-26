@@ -30,6 +30,7 @@ The BSX JS SDK is a lightweight library that allows you to interact with BSX API
   + [Update portfolio collateral mode](#update-portfolio-collateral-mode)
   + [Update position margin mode](#update-position-margin-mode)
   + [Update position leverage](#update-position-leverage)
+  + [Modify isolated position margin](#modify-isolated-position-margin)
 
 ## Installation
 **With Yarn:**
@@ -598,6 +599,19 @@ bsxInstance
   })
   .catch((error) => {
     console.log('updateLeverage catch error', error);
+  });
+```
+
+### Modify isolated position margin
+Modify isolated position margin
+```javascript
+bsxInstance
+  .modifyIsolatedPositionMargin({'product_id': 'DOGE-PERP', 'amount': '10'})
+  .then(({ result, error, curl }) => {
+    console.log('modifyIsolatedPositionMargin', result, error, curl);
+  })
+  .catch((error) => {
+    console.log('modifyIsolatedPositionMargin catch error', error);
   });
 ```
 

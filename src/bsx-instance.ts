@@ -17,6 +17,7 @@ import type {
   CreateOrderBody,
   GetTransferHistoryBody,
   GetUserTradeHistoryBody,
+  ModifyIsolatedPositionMarginBody,
   OpType,
   ProductId,
   UpdateCollateralModeBody,
@@ -384,6 +385,9 @@ export class BsxInstance {
 
   updateLeverage = async (body: UpdateLeverageBody) => 
     apiCallWithBody(this.apiInstance.updateLeverage, body);
+
+  modifyIsolatedPositionMargin = async (body: ModifyIsolatedPositionMarginBody) =>
+    apiCallWithBody(this.apiInstance.modifyIsolatedPositionMargin, body);
 }
 
 const apiCall = async <T, U>(apiFunction: () => Promise<ApiResponse<T, U>>) => {

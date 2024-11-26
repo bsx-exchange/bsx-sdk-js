@@ -13,6 +13,7 @@ import type {
   DeleteAllOrdersResult,
   DeleteOrderResult,
   GetTransferHistoryBody,
+  ModifyIsolatedPositionMarginBody,
   OpenOrderResult,
   OrderHistoryResult,
   PortfolioDetail,
@@ -100,6 +101,8 @@ export class ApiInstance {
   updateMarginMode = (body: UpdateMarginModeBody) => this.api.post('margin-mode', body);
 
   updateLeverage = (body: UpdateLeverageBody) => this.api.post('leverage', body);
+
+  modifyIsolatedPositionMargin = (body: ModifyIsolatedPositionMarginBody) => this.api.post('isolated-margin', body);
 
   // API KEY
   getApiKeyList = () => this.api.get('users/api-key');
