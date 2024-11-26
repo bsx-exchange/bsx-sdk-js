@@ -10,7 +10,19 @@ const main = async () => {
       ENV_NAME.TESTNET
     )
 
+    // const ok = await bsxInstance.updateCollateralMode({
+    //   collateral_mode: 'USDC_COLLATERAL'
+    // })
+    // console.log(ok)
 
+  //   bsxInstance
+  // .updateCollateralMode({'collateral_mode': 'MULTI_COLLATERAL'})
+  // .then(({ result, error, curl }) => {
+  //   console.log('updateCollateralMode', result, error, curl);
+  // })
+  // .catch((error) => {
+  //   console.log('updateCollateralMode catch error', error);
+  // });
 
 
     // const portfolio = await bsxInstance.getPortfolioDetail()
@@ -22,30 +34,31 @@ const main = async () => {
     // const { error: errorRegister } = await bsxInstance.register();
     // if (errorRegister) return 'errorRegister';
 
-    // createOrder
-    const { result: resultCreateOrder, error: errorCreateOrder } =
-      await bsxInstance.createOrder({
-        side: 'BUY',
-        type: 'LIMIT',
-        product_index: 1,
-        price: '1000',
-        size: '0.01',
-        post_only: false,
-        reduce_only: false,
-      });
-    if (errorCreateOrder || !resultCreateOrder) {
-      console.log('errorCreateOrder: ', errorCreateOrder);
-      return 'errorCreateOrder';
-    }
-    console.log(resultCreateOrder);
+    // // createOrder
+    // const { result: resultCreateOrder, error: errorCreateOrder } =
+    //   await bsxInstance.createOrder({
+    //     side: 'BUY',
+    //     type: 'LIMIT',
+    //     product_index: 1,
+    //     price: '1000',
+    //     size: '0.01',
+    //     post_only: false,
+    //     reduce_only: false,
+    //   });
+    // if (errorCreateOrder || !resultCreateOrder) {
+    //   console.log('errorCreateOrder: ', errorCreateOrder);
+    //   return 'errorCreateOrder';
+    // }
+    // console.log(resultCreateOrder);
 
     // // cancelOrder
     // const { result: resultCancelOrder, error: errorCancelOrder } =
-    //   await bsxInstance.cancelOrder(resultCreateOrder.id);
-    // if (errorCancelOrder || !resultCancelOrder) {
-    //   console.log('errorCancelOrder: ', errorCancelOrder);
-    //   return 'errorCancelOrder';
-    // }
+    //   await bsxInstance.cancelBulkOrders(["18b3da99-5e07-4452-a964-b6c7d4afd93d"]);
+    //   if (errorCancelOrder || !resultCancelOrder) {
+    //     console.log('errorCancelOrder: ', errorCancelOrder);
+    //     return 'errorCancelOrder';
+    //   }
+    //   console.log(resultCancelOrder)
   } catch (e) {
     console.log('Main catch error: ', e);
   }

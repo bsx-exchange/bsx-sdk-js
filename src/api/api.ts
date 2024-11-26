@@ -19,6 +19,7 @@ import type {
   RegisterBody,
   RegisterResult,
   SubmitWithdrawalRequestBody,
+  UpdateCollateralModeBody
 } from '../types';
 
 export class ApiInstance {
@@ -91,6 +92,8 @@ export class ApiInstance {
 
   getFundingHistory = (productId: string) =>
     this.api.get(`/products/${productId}/funding-rate`);
+
+  updateCollateralMode = (body: UpdateCollateralModeBody) => this.api.post('collateral-mode', body);
 
   // API KEY
   getApiKeyList = () => this.api.get('users/api-key');

@@ -19,6 +19,7 @@ import type {
   GetUserTradeHistoryBody,
   OpType,
   ProductId,
+  UpdateCollateralModeBody,
 } from './types/api-types';
 import { type EnvName, type OrderInput } from './types/general';
 import type {
@@ -372,6 +373,9 @@ export class BsxInstance {
 
   getTransferHistory = async (body: GetTransferHistoryBody) =>
     apiCallWithBody(this.apiInstance.getTransferHistory, body);
+
+  updateCollateralMode = async (body: UpdateCollateralModeBody) => 
+    apiCallWithBody(this.apiInstance.updateCollateralMode, body);
 }
 
 const apiCall = async <T, U>(apiFunction: () => Promise<ApiResponse<T, U>>) => {

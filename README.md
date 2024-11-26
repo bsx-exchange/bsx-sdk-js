@@ -27,6 +27,7 @@ The BSX JS SDK is a lightweight library that allows you to interact with BSX API
   + [Delete user api key](#delete-user-api-key)
   + [Create user api key](#create-user-api-key)
   + [Get transfer history](#get-transfer-history)
+  + [Update portfolio collateral mode](#update-portfolio-collateral-mode)
 
 
 ## Installation
@@ -557,6 +558,19 @@ bsxInstance
   })
   .catch((error) => {
     console.log('getTransferHistory catch error', error);
+  });
+```
+
+### Update portfolio collateral mode
+Update portfolio collateral mode
+```javascript
+bsxInstance
+  .updateCollateralMode({'collateral_mode': 'MULTI_COLLATERAL'})
+  .then(({ result, error, curl }) => {
+    console.log('updateCollateralMode', result, error, curl);
+  })
+  .catch((error) => {
+    console.log('updateCollateralMode catch error', error);
   });
 ```
 
