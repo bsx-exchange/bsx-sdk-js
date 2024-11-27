@@ -17,7 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "apisauce": "^3.0.1",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.7",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
